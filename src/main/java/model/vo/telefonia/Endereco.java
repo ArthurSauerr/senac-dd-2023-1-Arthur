@@ -27,6 +27,15 @@ public class Endereco {
 		this.estado = estado;
 	}
 
+	public Endereco(String rua, String cep, String numero, String bairro, String cidade, String estado) {
+		super();
+		this.rua = rua;
+		this.cep = cep;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.estado = estado;
+	}
 	
 	public Integer getId() {
 		return id;

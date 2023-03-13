@@ -25,6 +25,13 @@ public class Telefone {
 		this.movel = movel;
 	}
 
+	public Telefone(String ddd, String numero, boolean ativo, boolean movel) {
+		super();
+		this.ddd = ddd;
+		this.numero = numero;
+		this.ativo = ativo;
+		this.movel = movel;
+	}
 
 	public Integer getId() {
 		return id;
