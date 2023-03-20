@@ -2,7 +2,6 @@ package model.vo.telefonia;
 
 public class Endereco {
 	
-	//Atributos
 	private Integer id;
 	private String rua;
 	private String cep;

@@ -38,5 +38,83 @@ public class TelefoneDAO {
 		return novoTelefone;
 		
 	}
+	
+	public boolean atualizar(Telefone telefoneEditado) {
+		boolean atualizouTelefone = false;
+		Connection conexao = Banco.getConnection();
+		String sql = " UPDATE TELEFONE "
+					+ " SET DDD = ?, NUMERO = ?, ATIVO = ?, MOVEL = ? "
+					+ " WHERE ID = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		try {
+			query.setString(1, telefoneEditado.getDdd());
+			query.setString(2, telefoneEditado.getNumero());
+			query.setBoolean(3, telefoneEditado.isAtivo());
+			query.setBoolean(4, telefoneEditado.isMovel());
+			query.setInt(5, telefoneEditado.getId());
+			
+			int quantidadeLinhasAtualizadas = query.executeUpdate();
+			
+			if(quantidadeLinhasAtualizadas > 0) {
+				atualizouTelefone = true;
+			}
+			
+		} catch(SQLException e){
+			System.out.println("Erro ao atualizar telefone."
+								+"\nCausa: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		return atualizouTelefone;
+	}
+	
+	public Telefone consultarTelefoneId(int id) {
+		Telefone telefoneConsultado = null;
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT * FROM TELEFONE "
+				+ " WHERE ID = ?";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			query.setInt(1, id);
+			ResultSet resultado = query.executeQuery();
+			
+			if(resultado.next()) {
+				telefoneConsultado = new Telefone();
+				telefoneConsultado.setId(resultado.getInt("id"));
+				telefoneConsultado.setDdd(resultado.getString("ddd"));
+				telefoneConsultado.setNumero(resultado.getString("numero"));
+				telefoneConsultado.setAtivo(resultado.getBoolean("ativo"));
+				telefoneConsultado.setMovel(resultado.getBoolean("movel"));
+			
+			}
+		} catch (SQLException e){
+			System.out.println("Erro ao buscar telefone com id: " + id
+					+ "\nCausa: " + e.getMessage());
+		}
+		return telefoneConsultado;
+	}
+	
+	public boolean excluirTelefone(int id) {
+		boolean excluiu = false;
+		Connection conexao = Banco.getConnection();
+		String sql = " DELETE FROM TELEFONE "
+				+ " WHERE ID = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		try {
+			query.setInt(1, id);
+			int qtdLinhasAtualizadas = query.executeUpdate();
+			excluiu = qtdLinhasAtualizadas > 0;
+		} catch (SQLException e){
+			System.out.println("Erro ao excluir telefone. "
+					+ "\n Causa: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		
+		return excluiu;
+	}
 
 }
