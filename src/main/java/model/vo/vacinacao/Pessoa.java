@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Pessoa {
 	
-	private int id;
+	private Integer id;
 	private String nome;
 	private String dataNascimento;
 	private String sexo;
@@ -12,7 +12,7 @@ public class Pessoa {
 	private TipoPessoa tipoPessoa;
 	private double notaVacina;
 	
-	public Pessoa(int id, String nome, String dataNascimento, String sexo, String cpf, TipoPessoa tipoPessoa, double notaVacina) {
+	public Pessoa(Integer id, String nome, String dataNascimento, String sexo, String cpf, TipoPessoa tipoPessoa, double notaVacina) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -27,11 +27,11 @@ public class Pessoa {
 		super();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

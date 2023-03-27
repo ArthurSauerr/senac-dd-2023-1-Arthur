@@ -8,10 +8,10 @@ public class Vacina {
 	private String nome;
 	private String paisOrigem;
 	private String estagio;
-	private LocalDateTime dataPesquisa;
+	private String dataPesquisa;
 	private Pessoa pesquisador;
 	
-	public Vacina(int id, String nome, String paisOrigem, String estagio, LocalDateTime dataPesquisa, Pessoa pesquisador) {
+	public Vacina(int id, String nome, String paisOrigem, String estagio, String dataPesquisa, Pessoa pesquisador) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -57,11 +57,11 @@ public class Vacina {
 		this.estagio = estagio;
 	}
 
-	public LocalDateTime getDataPesquisa() {
+	public String getDataPesquisa() {
 		return dataPesquisa;
 	}
 
-	public void setDataPesquisa(LocalDateTime dataPesquisa) {
+	public void setDataPesquisa(String dataPesquisa) {
 		this.dataPesquisa = dataPesquisa;
 	}
 
@@ -76,8 +76,8 @@ public class Vacina {
 	@Override
 	public String toString() {
 		return "Vacina: " + getNome() 
-				+ "\nPaís de Origem: " + getPaisOrigem() 
-				+ "\nEstágio: " + getEstagio() 
+				+ "\nPais de Origem: " + getPaisOrigem() 
+				+ "\nEstagio: " + getEstagio() 
 				+ "\nData da Pesquisa: " + getDataPesquisa() 
 				+ "\nPesquisador: " + getPesquisador();
 	}
