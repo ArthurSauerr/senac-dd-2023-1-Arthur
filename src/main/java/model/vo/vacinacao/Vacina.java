@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 
 public class Vacina {
 	
-	private int id;
+	private Integer id;
 	private String nome;
 	private String paisOrigem;
 	private String estagio;
 	private String dataPesquisa;
 	private Pessoa pesquisador;
 	
-	public Vacina(int id, String nome, String paisOrigem, String estagio, String dataPesquisa, Pessoa pesquisador) {
+	public Vacina(Integer id, String nome, String paisOrigem, String estagio, String dataPesquisa, Pessoa pesquisador) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -25,11 +25,11 @@ public class Vacina {
 		super();
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -79,7 +79,7 @@ public class Vacina {
 				+ "\nPais de Origem: " + getPaisOrigem() 
 				+ "\nEstagio: " + getEstagio() 
 				+ "\nData da Pesquisa: " + getDataPesquisa() 
-				+ "\nPesquisador: " + getPesquisador();
+				+ "\nPesquisador: " + getPesquisador().getNome();
 	}
 	
 	

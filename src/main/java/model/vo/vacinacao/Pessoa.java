@@ -83,14 +83,18 @@ public class Pessoa {
 		this.notaVacina = notaVacina;
 	}
 
-	public void imprimir() {
-		System.out.printf("\n%3d  %-13s  %-20s  %-11s  %-25s  %-13s", 
-		this.getId(),
-		this.getNome(),
-		this.getDataNascimento(),
-		this.getSexo(),
-		this.getCpf(),
-		this.getNotaVacina());
+	@Override
+	public String toString() {
+		return "ID: " + getId() 
+				+ "\nNome: " + getNome() 
+				+ "\nNascimento: " + getDataNascimento() 
+				+ "\nSexo: " + getSexo()
+				+ "\nCPF: " + getCpf() 
+				+ "\nTipo da Pessoa: " + getTipoPessoa() 
+				+ "\nNota da Vacina: " + getNotaVacina() ;
 	}
+
+	
+	
 	
 }

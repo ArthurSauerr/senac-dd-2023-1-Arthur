@@ -13,7 +13,7 @@ public class VacinaDAO {
 	
 	public Vacina inserir(Vacina novaVacina) {
 		Connection conexao = Banco.getConnection();
-		String sql = " INSERT INTO VACINA (NOME, PAISORIGEM, ESTAGIO, DATAINICIO, NOMEPESQUISADOR) "
+		String sql = " INSERT INTO VACINA (NOME, PAISORIGEM, ESTAGIO, DATAPESQUISA, PESQUISADOR) "
 				+ " VALUES (?, ?, ?, ?, ?) ";
 		
 		PreparedStatement query = Banco.getPreparedStatementWithPk(conexao, sql);
@@ -66,7 +66,7 @@ public class VacinaDAO {
 	public boolean atualizar(Vacina vacinaAtualizada) {
 		boolean atualizou = false;
 		Connection conexao = Banco.getConnection();
-		String sql = " UPDATE VACINA SET NOME = ?, PAISORIGEM = ? ESTAGIO = ?, DATAINICIO = ?, NOMEPESQUISADOR = ? "
+		String sql = " UPDATE VACINA SET NOME = ?, PAISORIGEM = ? ESTAGIO = ?, DATAPESQUISA = ?, PESQUISADOR = ? "
 				+ " WHERE ID = ? ";
 		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -75,7 +75,7 @@ public class VacinaDAO {
 			query.setString(3, vacinaAtualizada.getEstagio());
 			query.setString(4, vacinaAtualizada.getDataPesquisa());
 			query.setString(5, vacinaAtualizada.getPesquisador().getNome());
-			query.setInt(4, vacinaAtualizada.getId());
+			query.setInt(6, vacinaAtualizada.getId());
 			int quantidadeDeLinhasAtualizadas = query.executeUpdate();
 			atualizou = quantidadeDeLinhasAtualizadas > 0;
 		} catch (SQLException e) {
@@ -142,7 +142,7 @@ public class VacinaDAO {
 		vacinaConsultada.setPaisOrigem(resultado.getString("paisorigem"));
 		vacinaConsultada.setEstagio(resultado.getString("estagio"));
 		vacinaConsultada.setDataPesquisa(resultado.getString("datapesquisa"));
-	//	vacinaConsultada.setPesquisador(resultado.getString("pesquisador"));    CORRIGIR
+//		vacinaConsultada.setPesquisador(resultado.getString("pesquisador"));    CORRIGIR
 		return vacinaConsultada;
 	}
 

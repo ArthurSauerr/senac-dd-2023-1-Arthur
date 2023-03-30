@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.vo.telefonia.Telefone;
 
@@ -115,6 +117,65 @@ public class TelefoneDAO {
 		}
 		
 		return excluiu;
+	}
+	
+	public List<Telefone> consultarTodos() {
+		List<Telefone> telefones = new ArrayList<Telefone>();
+		Connection conexao = Banco.getConnection();
+		String sql =  " SELECT * FROM TELEFONE ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			ResultSet resultado = query.executeQuery();
+			while(resultado.next()) {
+				Telefone telefoneConsultado = converterDeResultSetParaEntidade(resultado);
+				telefones.add(telefoneConsultado);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar todos os telefones" 
+								+ "\n Causa: " + e.getMessage());	
+		} finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		
+		return telefones;
+	}
+	
+	private Telefone converterDeResultSetParaEntidade(ResultSet resultado) throws SQLException {
+		Telefone telefoneConsultado = new Telefone(); 
+		telefoneConsultado.setId(resultado.getInt("id"));
+		telefoneConsultado.setIdCliente(resultado.getInt("id_cliente"));
+		telefoneConsultado.setDdd(resultado.getString("ddd"));
+		telefoneConsultado.setNumero(resultado.getString("numero"));
+		telefoneConsultado.setAtivo(resultado.getBoolean("ativo"));
+		telefoneConsultado.setMovel(resultado.getBoolean("movel"));
+		return telefoneConsultado;
+	}
+	
+	public List<Telefone> consultarPorIdCliente(Integer id) {
+		List<Telefone> telefones = new ArrayList<Telefone>();
+		Connection conexao = Banco.getConnection();
+		String sql =  " SELECT * FROM TELEFONE "
+				+ " WHERE ID_CLIENTE = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			query.setInt(1, id);
+			ResultSet resultado = query.executeQuery();
+			while(resultado.next()) {
+				Telefone telefoneConsultado = converterDeResultSetParaEntidade(resultado);
+				telefones.add(telefoneConsultado);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar todos os telefones do cliente informado" 
+								+ "\n Causa: " + e.getMessage());	
+		} finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		
+		return telefones;
 	}
 
 }
