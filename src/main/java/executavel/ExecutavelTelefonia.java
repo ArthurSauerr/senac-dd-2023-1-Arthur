@@ -14,14 +14,14 @@ public class ExecutavelTelefonia {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Endereco endereco1 = new Endereco("Mauro Ramos", "88000123", "10", "Centro", "Florianópolis", "SC");
+		Endereco endereco1 = new Endereco("Mauro Ramos", "88000123", "10", "Centro", "Florianï¿½polis", "SC");
 		EnderecoDAO dbaDeEnderecos = new EnderecoDAO();
 		//salvadorDeEnderecos.inserir(endereco1);
 		/*
 		if(endereco1.getId() != null) {
-			System.out.println("Novo endereço cadastrado.");
+			System.out.println("Novo endereï¿½o cadastrado.");
 		} else {
-			System.out.println("Erro ao cadastrar endereço.");
+			System.out.println("Erro ao cadastrar endereï¿½o.");
 		}
 		
 		Endereco endereco2 = dbaDeEnderecos.consultarPorId(2);
@@ -32,21 +32,21 @@ public class ExecutavelTelefonia {
 		endereco2 = dbaDeEnderecos.consultarPorId(2);
 		
 		if(atualizou) {
-			System.out.println("Endereço atualizado.");
+			System.out.println("Endereï¿½o atualizado.");
 		} else {
-			System.out.println("Erro ao atualizar endereço.");
+			System.out.println("Erro ao atualizar endereï¿½o.");
 		}
 		
 		if(dbaDeEnderecos.excluir(1)) {
-			System.out.println("Endereço foi excluído");
+			System.out.println("Endereï¿½o foi excluï¿½do");
 		}else {
-			System.out.println("Erro ao excluir endereço");
+			System.out.println("Erro ao excluir endereï¿½o");
 		}
 		
 		
 		List<Telefone> telefonesDoSocrates = new ArrayList<Telefone>();
 		telefonesDoSocrates.add(new Telefone("48", "988881234", true, true));
-		Cliente socrates = new Cliente("Sócrates", "33322233344", telefonesDoSocrates , true, null);
+		Cliente socrates = new Cliente("Sï¿½crates", "33322233344", telefonesDoSocrates , true, null);
 		Cliente pele = new Cliente ("Edson", "11122233344", null, true, endereco1 );
 		*/
 		Telefone telefone1 = new Telefone("48", "32328888", true, false);
@@ -59,7 +59,7 @@ public class ExecutavelTelefonia {
 			System.out.println("Erro ao cadastrar telefone.");
 		}
 		
-		Telefone telefoneJaExiste = dbaDeTelefones.consultarTelefoneId(1);
+		Telefone telefoneJaExiste = dbaDeTelefones.consultarPorId(1);
 		
 		System.out.println(telefoneJaExiste);
 		telefoneJaExiste.setNumero("91297069");
@@ -74,9 +74,9 @@ public class ExecutavelTelefonia {
 		System.out.println(telefoneJaExiste);
 	/*
 		if(dbaDeTelefones.excluirTelefone(7)) {
-			System.out.println("Telefone foi excluído");
+			System.out.println("Telefone foi excluï¿½do");
 		} else {
-			System.out.println("Erro ao excluír telefone");
+			System.out.println("Erro ao excluï¿½r telefone");
 		}
 		
 		List<Cliente> clientes = new ArrayList<Cliente>();
