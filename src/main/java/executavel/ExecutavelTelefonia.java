@@ -36,7 +36,7 @@ public class ExecutavelTelefonia {
 					"Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			
 			//Exemplo de captura de múltiplas exceções, válido apenas a partir do Java versão 7
-		} catch (CpfJaUtilizadoException | EnderecoInvalidoException e) {
+		} catch (CpfJaUtilizadoException | EnderecoInvalidoException | CampoInvalidoException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), 
 					"Erro", JOptionPane.ERROR_MESSAGE);
 		} 

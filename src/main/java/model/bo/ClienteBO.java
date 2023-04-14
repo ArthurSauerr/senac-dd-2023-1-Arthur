@@ -3,6 +3,7 @@ package model.bo;
 import java.util.List;
 
 import model.dao.ClienteDAO;
+import model.exception.CampoInvalidoException;
 import model.exception.ClienteComTelefoneException;
 import model.exception.CpfAlteradoException;
 import model.exception.CpfJaUtilizadoException;
@@ -20,8 +21,7 @@ private ClienteDAO dao = new ClienteDAO();
 	 * @throws CpfJaUtilizadoException
 	 * @throws EnderecoInvalidoException
 	 */
-	public Cliente inserir(Cliente novoCliente) throws CpfJaUtilizadoException, 
-			EnderecoInvalidoException {
+	public Cliente inserir(Cliente novoCliente) throws CpfJaUtilizadoException, EnderecoInvalidoException {
 		if(dao.cpfJaUtilizado(novoCliente.getCpf())) {
 			throw new CpfJaUtilizadoException("CPF informado já foi utilizado");
 		}
