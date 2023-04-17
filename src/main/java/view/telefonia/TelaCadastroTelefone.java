@@ -1,33 +1,39 @@
 package view.telefonia;
 
 import java.awt.EventQueue;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.text.MaskFormatter;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import controller.TelefoneController;
-import model.exception.CampoInvalidoException;
+import controller.ClienteController;
 import model.vo.telefonia.Telefone;
 
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class TelaCadastroTelefone {
 
-	private JFrame frame;
-	private JTextField txtDdd;
-	private JTextField txtNumero;
-	private JLabel lblDdd;
+	private JFrame frmNovoTelefone;
+	private JLabel lblTipo;
 	private JLabel lblNumero;
-	private JLabel lblMovel;
+	private JLabel lblCliente;
+	private JRadioButton rbMovel;
+	private JRadioButton rbFixo;
 	private JButton btnSalvar;
-	private JCheckBox checkBoxMovel;
+	private JComboBox cbClientes;
+
+	private MaskFormatter mascaraTelefoneFixo;
+	private MaskFormatter mascaraTelefoneMovel;
+	private JFormattedTextField txtTelefoneFixo;
+	private JFormattedTextField txtTelefoneMovel;
 
 	/**
 	 * Launch the application.
@@ -37,7 +43,7 @@ public class TelaCadastroTelefone {
 			public void run() {
 				try {
 					TelaCadastroTelefone window = new TelaCadastroTelefone();
-					window.frame.setVisible(true);
+					window.frmNovoTelefone.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,74 +53,129 @@ public class TelaCadastroTelefone {
 
 	/**
 	 * Create the application.
+	 * @throws ParseException 
 	 */
-	public TelaCadastroTelefone() {
+	public TelaCadastroTelefone() throws ParseException {
 		initialize();
+		esconderTodosOsComponentes();
+	}
+
+	private void esconderTodosOsComponentes() {
+		lblNumero.setVisible(false);
+		txtTelefoneFixo.setVisible(false);
+		lblCliente.setVisible(false);
+		cbClientes.setVisible(false);
+		btnSalvar.setEnabled(false);
+	}
+	
+	private void mostrarComponentesComuns() {
+		lblNumero.setVisible(true);
+		lblCliente.setVisible(true);
+		cbClientes.setVisible(true);
+		btnSalvar.setEnabled(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws ParseException 
 	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+	private void initialize() throws ParseException {
+		frmNovoTelefone = new JFrame();
+		frmNovoTelefone.setTitle("Novo Telefone");
+		frmNovoTelefone.setBounds(100, 100, 401, 251);
+		frmNovoTelefone.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmNovoTelefone.getContentPane().setLayout(null);
 		
-		lblDdd = new JLabel("DDD:");
-		lblDdd.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDdd.setBounds(22, 32, 46, 14);
-		frame.getContentPane().add(lblDdd);
+		lblTipo = new JLabel("Tipo:");
+		lblTipo.setBounds(30, 30, 45, 14);
+		frmNovoTelefone.getContentPane().add(lblTipo);
 		
-		lblNumero = new JLabel("Número:");
-		lblNumero.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNumero.setBounds(22, 71, 61, 14);
-		frame.getContentPane().add(lblNumero);
+		lblNumero = new JLabel("Número");
+		lblNumero.setBounds(30, 60, 45, 14);
+		frmNovoTelefone.getContentPane().add(lblNumero);
 		
-		lblMovel = new JLabel("Móvel:");
-		lblMovel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMovel.setBounds(22, 109, 46, 14);
-		frame.getContentPane().add(lblMovel);
+		lblCliente = new JLabel("Cliente");
+		lblCliente.setBounds(30, 90, 45, 14);
+		frmNovoTelefone.getContentPane().add(lblCliente);
 		
-		txtDdd = new JTextField();
-		txtDdd.setBounds(92, 30, 141, 20);
-		frame.getContentPane().add(txtDdd);
-		txtDdd.setColumns(10);
+		mascaraTelefoneFixo = new MaskFormatter("(##)####-####");
+		mascaraTelefoneMovel = new MaskFormatter("(##)9####-####");
+		mascaraTelefoneFixo.setValueContainsLiteralCharacters(false);
+		mascaraTelefoneMovel.setValueContainsLiteralCharacters(false);
 		
-		txtNumero = new JTextField();
-		txtNumero.setBounds(93, 69, 140, 20);
-		frame.getContentPane().add(txtNumero);
-		txtNumero.setColumns(10);
-		
-		checkBoxMovel = new JCheckBox("");
-		checkBoxMovel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		checkBoxMovel.setBounds(89, 106, 121, 23);
-		frame.getContentPane().add(checkBoxMovel);
-		
-		btnSalvar = new JButton("SALVAR");
-		btnSalvar.addActionListener(new ActionListener() {
+		rbMovel = new JRadioButton("Móvel");
+		rbMovel.setBounds(260, 25, 100, 23);
+		rbMovel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Telefone telefone = new Telefone();
-				telefone.setDdd(txtDdd.getText());
-				telefone.setNumero(txtNumero.getText());
-				telefone.setAtivo(false);
-				telefone.setMovel(checkBoxMovel.isSelected());
-				
-				TelefoneController controller = new TelefoneController();
-				try {
-					controller.inserir(telefone);
-					JOptionPane.showMessageDialog(null, "Telefone cadastrado com sucesso.");
-				} catch(CampoInvalidoException e){
-					JOptionPane.showMessageDialog(null, 
-							"Preencha os seguintes campos: \n" +e.getMessage(),
-							"Atenção", JOptionPane.WARNING_MESSAGE);
-				}
-				
+				mostrarComponentesComuns();
+				txtTelefoneMovel.setVisible(true);
+				txtTelefoneFixo.setVisible(false);
 			}
-			
 		});
+		frmNovoTelefone.getContentPane().add(rbMovel);
 		
-		btnSalvar.setBounds(175, 200, 91, 31);
-		frame.getContentPane().add(btnSalvar);
+		rbFixo = new JRadioButton("Fixo");
+		rbFixo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mostrarComponentesComuns();
+				txtTelefoneMovel.setVisible(false);
+				txtTelefoneFixo.setVisible(true);
+			}
+		});
+		rbFixo.setBounds(90, 26, 100, 23);
+		frmNovoTelefone.getContentPane().add(rbFixo);
+		
+		ButtonGroup grupo = new ButtonGroup();
+		grupo.add(rbFixo);
+		grupo.add(rbMovel);
+		
+		txtTelefoneFixo = new JFormattedTextField(mascaraTelefoneFixo);
+		txtTelefoneFixo.setBackground(new Color(192, 192, 192));
+		txtTelefoneFixo.setForeground(new Color(255, 0, 255));
+		txtTelefoneFixo.setBounds(90, 60, 270, 20);
+		frmNovoTelefone.getContentPane().add(txtTelefoneFixo);
+		
+		txtTelefoneMovel = new JFormattedTextField(mascaraTelefoneMovel);
+		txtTelefoneMovel.setForeground(Color.BLUE);
+		txtTelefoneMovel.setBounds(90, 60, 270, 20);
+		txtTelefoneMovel.setVisible(false);
+		frmNovoTelefone.getContentPane().add(txtTelefoneMovel);
+		
+		ClienteController cliController = new ClienteController();
+		cbClientes = new JComboBox(cliController.consultarTodos().toArray());
+		cbClientes.setBounds(90, 90, 270, 22);
+		cbClientes.setSelectedItem(null); //Inicia sem preenchimento
+		frmNovoTelefone.getContentPane().add(cbClientes);
+		
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Telefone novoTelefone = new Telefone();
+				novoTelefone.setMovel(rbMovel.isSelected());
+				
+				String numeroCompletoDigitado = "";
+				if(novoTelefone.isMovel()) {
+					try {
+						numeroCompletoDigitado = mascaraTelefoneMovel.stringToValue(txtTelefoneMovel.getText()) +"\n";
+					} catch(ParseException e1) {
+						e1.printStackTrace();
+					}
+				
+				}else {
+					try {
+						numeroCompletoDigitado = mascaraTelefoneFixo.stringToValue(txtTelefoneFixo.getText()) +"\n";
+					}catch(ParseException e1) {
+						e1.printStackTrace();
+					}
+				}
+				String ddd = numeroCompletoDigitado.substring(0,2);
+				String numero = numeroCompletoDigitado.substring(2);
+
+				novoTelefone.setDdd(ddd);
+				novoTelefone.setNumero(numero);
+			}
+		});
+		btnSalvar.setBounds(30, 123, 330, 62);
+		frmNovoTelefone.getContentPane().add(btnSalvar);
 	}
 }
