@@ -33,6 +33,8 @@ public class TelaCadastroEndereco {
 	private JButton btnSalvar;
 	private JComboBox cbEstado;
 	
+	private Endereco endereco;
+	
 	//TODO chamar API ou backend futuramente
 	private String[] estados = {"PR", "RS", "SC"};
 
@@ -43,7 +45,7 @@ public class TelaCadastroEndereco {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroEndereco window = new TelaCadastroEndereco();
+					TelaCadastroEndereco window = new TelaCadastroEndereco(null);
 					window.frmCadastroDeEndereco.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,11 +53,11 @@ public class TelaCadastroEndereco {
 			}
 		});
 	}
-
 	/**
 	 * Create the application.
 	 */
-	public TelaCadastroEndereco() {
+	public TelaCadastroEndereco(Endereco enderecoSelecionado) {
+		this.endereco = enderecoSelecionado;
 		initialize();
 	}
 
@@ -127,27 +129,53 @@ public class TelaCadastroEndereco {
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				boolean edicao = false;
+				if(endereco == null) {
+					//Cadastro de novo endereço
+					endereco = new Endereco();
+				}else {
+					//Edição de endereço passado por parâmetro no construtor
+					edicao = true;
+				}
+				
 				Endereco endereco = new Endereco();
 				endereco.setCep(txtCep.getText());
 				endereco.setRua(txtRua.getText());
 				endereco.setNumero(txtNumero.getText());
-				endereco.setCidade(txtCidade.getText());
 				endereco.setBairro(txtBairro.getText());
+				endereco.setCidade(txtCidade.getText());
 				endereco.setEstado((String) cbEstado.getSelectedItem());
 						
 				EnderecoController controller = new EnderecoController();
 				try {
-					controller.inserir(endereco);
-					JOptionPane.showMessageDialog(null, "Endereço cadastrado com sucesso.");
+					//Alterado aqui para contemplar tanto edição quanto cadastro de endereço
+					if(edicao) {
+						controller.atualizar(endereco);
+					}else {
+						controller.inserir(endereco);
+					}
+					JOptionPane.showMessageDialog(null, "Endereço:" + (edicao ? " atualizado " : " criado ") + "com sucesso!",
+														"Sucesso", JOptionPane.INFORMATION_MESSAGE);
 				} catch (CampoInvalidoException e) {
-					JOptionPane.showMessageDialog(null, 
-							"Preencha os seguintes campos: \n" + e.getMessage(), 
-							"Atenção", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,  "Preencha os seguintes campos: \n" + e.getMessage(), 
+														 "Atenção", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
 		btnSalvar.setBounds(130, 170, 100, 23);
 		frmCadastroDeEndereco.getContentPane().add(btnSalvar);
+		
+		if(endereco != null) {
+			txtCep.setText(endereco.getCep());
+			txtRua.setText(endereco.getRua());
+			txtNumero.setText(endereco.getNumero());
+			txtCidade.setText(endereco.getCidade());
+			txtBairro.setText(endereco.getBairro());
+			
+			cbEstado.setSelectedItem(endereco.getEstado());
+		}
+		
+		frmCadastroDeEndereco.setVisible(true);
 		
 
 	
