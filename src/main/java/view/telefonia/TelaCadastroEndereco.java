@@ -138,7 +138,6 @@ public class TelaCadastroEndereco {
 					edicao = true;
 				}
 				
-				Endereco endereco = new Endereco();
 				endereco.setCep(txtCep.getText());
 				endereco.setRua(txtRua.getText());
 				endereco.setNumero(txtNumero.getText());

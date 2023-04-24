@@ -119,7 +119,7 @@ public class TelaListagemEnderecos {
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opcaoSelecionada = JOptionPane.showConfirmDialog(null, "Confirmar exclussão");
+				int opcaoSelecionada = JOptionPane.showConfirmDialog(null, "Confirmar exclusão");
 				
 				if(opcaoSelecionada == JOptionPane.YES_OPTION) {
 					try {
